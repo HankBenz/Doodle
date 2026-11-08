@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: doodle
+      POSTGRES_USER: doodle
+      POSTGRES_PASSWORD: doodle
+    ports:
+      - "5432:5432"
+    volumes:
+      - doodle-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U doodle -d doodle"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  scheduling:
+    build: .
+    ports:
+      # 8080 is often inside a Windows excluded range, so the host port is 9080.
+      - "9080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/doodle
+      SPRING_DATASOURCE_USERNAME: doodle
+      SPRING_DATASOURCE_PASSWORD: doodle
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+volumes:
+  doodle-pg:
