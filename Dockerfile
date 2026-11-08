@@ -1,19 +1,21 @@
-FROM maven:3.9-eclipse-temurin-21 AS build
-WORKDIR /src
-COPY pom.xml .
-RUN mvn -B -DskipTests dependency:resolve
-COPY src ./src
-RUN mvn -B -DskipTests package
+FROM eclipse-temurin:17-jdk AS build
+WORKDIR /workspace
 
-FROM eclipse-temurin:21-jre
+COPY gradlew settings.gradle build.gradle ./
+COPY gradle gradle
+COPY src src
+
+RUN sed -i 's/\r$//' gradlew \
+    && chmod +x gradlew \
+    && ./gradlew bootJar --no-daemon -x test \
+    && cp build/libs/*-SNAPSHOT.jar /workspace/application.jar
+
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd --system --uid 10001 --home /app app \
-    && chown -R app:app /app
-COPY --from=build /src/target/doodle-scheduling.jar /app/app.jar
-USER app
+
+RUN useradd --system --uid 1001 doodle
+COPY --from=build /workspace/application.jar /app/application.jar
+USER doodle
+
 EXPOSE 8080
-ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75.0"
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/application.jar"]

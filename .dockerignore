@@ -1,5 +1,7 @@
-target
 .git
+.gradle
 .idea
+build
+target
+out
 *.md
-backend-challenge.pdf
