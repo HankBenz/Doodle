@@ -14,6 +14,13 @@ import java.util.List;
 @EnableConfigurationProperties(CorsProperties.class)
 public class CorsConfig {
 
+    private static List<String> present(List<String> values) {
+        if (values == null) {
+            return List.of();
+        }
+        return values.stream().filter(StringUtils::hasText).toList();
+    }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource(CorsProperties properties) {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -31,12 +38,5 @@ public class CorsConfig {
             source.registerCorsConfiguration(pathPattern, configuration);
         }
         return source;
-    }
-
-    private static List<String> present(List<String> values) {
-        if (values == null) {
-            return List.of();
-        }
-        return values.stream().filter(StringUtils::hasText).toList();
     }
 }
