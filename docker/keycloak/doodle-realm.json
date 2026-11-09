@@ -1,0 +1,117 @@
+{
+  "realm": "doodle",
+  "displayName": "Doodle",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Doodle application user"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "doodle",
+      "name": "Doodle",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "doodle-secret",
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "consentRequired": false,
+      "fullScopeAllowed": true,
+      "rootUrl": "http://localhost:8080",
+      "baseUrl": "http://localhost:8080",
+      "redirectUris": [
+        "http://localhost:18080/*",
+        "http://localhost:8080/*",
+        "http://127.0.0.1:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:18080",
+        "http://localhost:8080",
+        "http://127.0.0.1:8080"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "SwaggerUI",
+      "name": "Swagger UI",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": false,
+      "fullScopeAllowed": true,
+      "redirectUris": [
+        "http://localhost:8080/swagger-ui/oauth2-redirect.html",
+        "http://127.0.0.1:8080/swagger-ui/oauth2-redirect.html"
+      ],
+      "webOrigins": [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "doodle",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "doodle@localhost",
+      "firstName": "Doodle",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "doodle",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Doodle",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "doodle",
+      "Username": "doodle",
+      "SSLMode": "prefer",
+      "PassFile": ".pgpass"
+    }
+  }
+}
