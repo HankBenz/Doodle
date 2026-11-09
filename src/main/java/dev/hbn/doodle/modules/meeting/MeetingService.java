@@ -1,14 +1,14 @@
 package dev.hbn.doodle.modules.meeting;
 
-import dev.hbn.doodle.modules.timeslot.TimeSlotStatus;
 import dev.hbn.doodle.modules.timeslot.TimeslotEntity;
 import dev.hbn.doodle.modules.timeslot.TimeslotRepository;
+import dev.hbn.doodle.modules.timeslot.TimeslotStatus;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,7 +42,7 @@ public class MeetingService implements MeetingContract {
             throw new IllegalArgumentException("request");
         }
         Optional<TimeslotEntity> timeslot = timeslotRepository.findById(request.timeslotId());
-        if (timeslot.isEmpty() || timeslot.get().getStatus() == TimeSlotStatus.BUSY) {
+        if (timeslot.isEmpty() || timeslot.get().getStatus() == TimeslotStatus.BUSY) {
             throw new IllegalArgumentException("timeslot not found or is scheduled");
         }
 
@@ -53,7 +53,7 @@ public class MeetingService implements MeetingContract {
         entity.setParticipants(request.participants());
         meetingRepository.save(entity);
 
-        timeslot.get().setStatus(TimeSlotStatus.FREE);
+        timeslot.get().setStatus(TimeslotStatus.BUSY);
         timeslotRepository.save(timeslot.get());
 
         return MeetingPortable.create(entity);
@@ -68,15 +68,14 @@ public class MeetingService implements MeetingContract {
         }
         var meeting = possibleMeeting.get();
         var timeslot = meeting.getTimeslot();
-        timeslot.setStatus(TimeSlotStatus.FREE);
+        timeslot.setStatus(TimeslotStatus.FREE);
         timeslotRepository.save(timeslot);
         meetingRepository.delete(meeting);
     }
 
     @Override
-    public List<MeetingPortable> paged(Pageable pageable) {
+    public Page<MeetingPortable> paged(Pageable pageable) {
         return meetingRepository.findAll(pageable)
-                .map(MeetingPortable::create)
-                .toList();
+                .map(MeetingPortable::create);
     }
 }

@@ -10,10 +10,10 @@ public record TimeslotCreateRequest(
         @NotNull UUID ownerId,
         @NotNull Instant start,
         @NotNull Instant finish,
-        @NotNull TimeSlotStatus status
+        @NotNull TimeslotStatus status
 ) {
     @JsonIgnore
     public boolean isValid() {
-        return ownerId != null && start != null && finish != null && status != null;
+        return ownerId != null && start != null && finish != null && status != null && start.isBefore(finish);
     }
 }

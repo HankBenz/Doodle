@@ -2,11 +2,10 @@ package dev.hbn.doodle.modules.timeslot;
 
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/timeslots")
 @RestController
@@ -18,7 +17,7 @@ public class TimeslotController {
     }
 
     @GetMapping
-    List<TimeslotPortable> getTimeslots(TimeslotFilter filter, @ParameterObject @PageableDefault(sort = "id") Pageable pageable) {
+    Page<TimeslotPortable> getTimeslots(TimeslotFilter filter, @ParameterObject @PageableDefault(sort = "id") Pageable pageable) {
         return timeslotProvider.paged(filter, pageable);
     }
 
@@ -32,18 +31,8 @@ public class TimeslotController {
         return timeslotProvider.update(request);
     }
 
-    @PatchMapping
-    TimeslotPortable schedule(@Valid @RequestBody TimeslotScheduleRequest request) {
-        return timeslotProvider.schedule(request);
-    }
-
     @DeleteMapping("{id}")
     void delete(@PathVariable("id") long id) {
         timeslotProvider.delete(id);
-    }
-
-    @DeleteMapping
-    void delete(long[] ids) {
-        timeslotProvider.delete(ids);
     }
 }

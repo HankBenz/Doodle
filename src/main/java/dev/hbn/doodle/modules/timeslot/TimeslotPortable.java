@@ -6,9 +6,9 @@ import java.util.UUID;
 public record TimeslotPortable(
         long id,
         UUID ownerId,
-        Instant Start,
-        Instant Finish,
-        TimeSlotStatus Status
+        Instant start,
+        Instant finish,
+        TimeslotStatus status
 ) {
     public static TimeslotPortable create(TimeslotEntity slot) {
         return new TimeslotPortable(slot.getId(), slot.getOwnerId(), slot.getStart(), slot.getFinish(), slot.getStatus());

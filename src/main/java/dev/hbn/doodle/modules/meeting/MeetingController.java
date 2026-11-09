@@ -2,11 +2,10 @@ package dev.hbn.doodle.modules.meeting;
 
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("meetings")
 @RestController
@@ -18,7 +17,7 @@ public class MeetingController {
     }
 
     @GetMapping
-    List<MeetingPortable> meetings(@ParameterObject @PageableDefault(sort = "id") Pageable pageable) {
+    Page<MeetingPortable> meetings(@ParameterObject @PageableDefault(sort = "id") Pageable pageable) {
         return meetingProvider.paged(pageable);
     }
 

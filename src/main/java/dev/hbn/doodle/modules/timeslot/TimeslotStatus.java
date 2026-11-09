@@ -1,6 +1,6 @@
 package dev.hbn.doodle.modules.timeslot;
 
-public enum TimeSlotStatus {
+public enum TimeslotStatus {
     FREE,
     BUSY,
 }
