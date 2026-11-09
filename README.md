@@ -54,7 +54,7 @@ The `Doodle` PostgreSQL server is preconfigured in pgAdmin. Select its `doodle` 
 | Port | `5432` |
 | Database | `doodle` |
 | Username | `doodle` |
-| Password | `doodle` |
+| Password | `P@s3woooord` |
 
 ## Limitations
 

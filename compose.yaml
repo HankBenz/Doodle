@@ -1,13 +1,13 @@
 # Keycloak: http://localhost:8180 (realm doodle, user doodle / doodle, admin admin / admin)
 # pgAdmin: http://localhost:5050 (admin@doodle.dev / admin), server "Doodle" is preloaded
-# Postgres publishes 5432 on a random host port; Spring Boot's Docker Compose support picks it up.
+# PostgreSQL is available on localhost:15432 for local database tools.
 services:
   postgres:
     image: 'postgres:17'
     environment:
       POSTGRES_DB: doodle
       POSTGRES_USER: doodle
-      POSTGRES_PASSWORD: doodle
+      POSTGRES_PASSWORD: P@s3woooord
     ports:
       - '15432:5432'
     volumes:
@@ -73,7 +73,8 @@ services:
       SPRING_DOCKER_COMPOSE_ENABLED: 'false'
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/doodle
       SPRING_DATASOURCE_USERNAME: doodle
-      SPRING_DATASOURCE_PASSWORD: doodle
+      SPRING_DATASOURCE_PASSWORD: P@s3woooord
+      SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/doodle
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/doodle/protocol/openid-connect/token
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/doodle/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_USER_INFO_URI: http://keycloak:8080/realms/doodle/protocol/openid-connect/userinfo

@@ -48,7 +48,7 @@ public abstract class TestsSuper {
             .withImagePullPolicy(PullPolicy.alwaysPull())
             .withDatabaseName("doodle")
             .withUsername("doodle")
-            .withPassword("password")
+            .withPassword("P@s3woooord")
             .withNetwork(network)
             .withNetworkAliases("pgdb");
     private static final GenericContainer<?> keycloak = new GenericContainer<>(
@@ -96,13 +96,13 @@ public abstract class TestsSuper {
         registry.add("oauth2.requires-secure-metadata", () -> "false");
         registry.add("spring.r2dbc.url", () -> r2dbcUrl("doodle"));
         registry.add("spring.r2dbc.username", () -> "doodle");
-        registry.add("spring.r2dbc.password", () -> "password");
+        registry.add("spring.r2dbc.password", () -> "P@s3woooord");
         registry.add("spring.flyway.url", () -> jdbcUrl("doodle"));
         registry.add("spring.flyway.user", () -> "doodle");
-        registry.add("spring.flyway.password", () -> "password");
+        registry.add("spring.flyway.password", () -> "P@s3woooord");
         registry.add("spring.datasource.url", () -> jdbcUrl("doodle"));
         registry.add("spring.datasource.username", () -> "doodle");
-        registry.add("spring.datasource.password", () -> "password");
+        registry.add("spring.datasource.password", () -> "P@s3woooord");
     }
 
     private static String accessToken(String realm, String clientId, String username, String password) {

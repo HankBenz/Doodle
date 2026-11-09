@@ -1,20 +1,20 @@
-FROM eclipse-temurin:17-jdk AS build
-WORKDIR /workspace
+FROM gradle:9.8.2-jdk17-noble AS build
+WORKDIR /home/gradle/project
 
-COPY gradlew settings.gradle build.gradle ./
-COPY gradle gradle
-COPY src src
+COPY --chown=gradle:gradle settings.gradle build.gradle ./
 
-RUN sed -i 's/\r$//' gradlew \
-    && chmod +x gradlew \
-    && ./gradlew bootJar --no-daemon -x test \
-    && cp build/libs/*-SNAPSHOT.jar /workspace/application.jar
+RUN gradle dependencies --no-daemon
+
+COPY --chown=gradle:gradle src ./src
+
+RUN gradle bootJar --no-daemon -x test \
+    && cp build/libs/*-SNAPSHOT.jar /home/gradle/application.jar
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 RUN useradd --system --uid 1001 doodle
-COPY --from=build /workspace/application.jar /app/application.jar
+COPY --from=build /home/gradle/application.jar /app/application.jar
 USER doodle
 
 EXPOSE 8080
